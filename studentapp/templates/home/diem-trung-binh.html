@@ -1,0 +1,167 @@
+{% extends 'layouts/base.html' %}
+{% block css %}
+<style>
+  .form-outline .form-control{
+    border:1px solid #C5C5C5  !important
+
+
+
+
+
+
+
+</style>
+{% endblock %}
+
+{% block body %}
+<h1 class="text-center mt-4 mb-4">Trang xuất điểm trung bình</h1>
+
+{% if message %}
+<div class="alert alert-danger mt-4">
+    {{ message }}
+</div>
+{% endif %}
+
+{% if message_success %}
+<div class="alert alert-success mt-4">
+    {{ message_success }}
+</div>
+{% endif %}
+
+<div class="row">
+    <div class=" mx-auto d-flex justify-content-center flex-column">
+        <form role="form" method="post" action="{{ url_for('diem_trung_binh') }}">
+            <div class="card-body pt-0 ">
+                <div class="row mb-4 ">
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="form-outline">
+
+                            <div class="styled-select">
+                                <label class="text-info">&#9776 Danh sách môn học</label>
+                                <select class="form-control select" name="subject_id">
+                                    {% for subject in subjects %}
+                                    <option value="{{ subject.id }}" {% if (subject.id== subject_id) %}
+                                            selected {% endif %} style=" font-size:17px; ">{{ subject }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="row mb-4 ">
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="form-outline">
+
+                            <div class="styled-select">
+                                <label class="text-info">&#9776 Danh sách lớp</label>
+                                <select class="form-control select" name="class_id">
+                                    {% for class in classes %}
+                                    <option value="{{ class.id }}" {% if (class.id== class_id) %}
+                                            selected {% endif %} style=" font-size:17px; ">{{ class }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="row mb-4 ">
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="form-outline">
+
+                            <div class="styled-select">
+                                <label class="text-info">&#9776 Danh sách học kỳ</label>
+                                <select class="form-control select" name="semester_id">
+                                    {% for semester in semesters %}
+                                    <option value="{{ semester.id }}" {% if (semester.id== semester_id) %}
+                                            selected {% endif %} style=" font-size:17px; ">{{ semester }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col "></div>
+                </div>
+                <!-- Submit button -->
+                <div class="row mt-4">
+                    <div class="col"></div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary btn-block mb-3"> Xuất bảng điểm</button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+            </div>
+        </form>
+
+        {% if marks %}
+        <div class=" mx-auto mt-4 justify-content-center" style="width : 90%">
+            <div class="row " style="background-color: #C5C5C5">
+                <div class="col text-center">
+                    <h4 class="mb-0 d-flex justify-content-center align-items-center" style="height: 60px;">
+                        BẢNG ĐIỂM MÔN HỌC
+                    </h4>
+                </div>
+            </div>
+            <div class="row border ">
+                <div class="col border " style="background-color: #E8E8E8 ; height: 50px;">
+                    <h5 style=" margin:10px ">Lớp: {{ class_name }} </h5>
+                </div>
+                <div class="col border " style="background-color: #E8E8E8 ; height: 50px; ">
+                    <h5 style=" margin:10px ">Học kỳ: {{ semesters_obj.semester_name }} </h5>
+                </div>
+            </div>
+            <div class="row border ">
+                <div class="col border " style="background-color: #E8E8E8 ; height: 50px;">
+                    <h5 style=" margin:10px ">Môn học: {{ subject_obj.subject_name }}</h5>
+                </div>
+                <div class="col border " style="background-color: #E8E8E8 ; height: 50px; ">
+                    <h5 style=" margin:10px ">Năm học: {{ semesters_obj.school_year }} </h5>
+                </div>
+            </div>
+        </div>
+        <div class="mx-auto" style="width : 1190.4px">
+            <table class="table table-bordered border-primary">
+                <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Họ và tên</th>
+                    {% for mark in mark_type %}
+                    <th scope="col">{{ mark }}</th>
+                    {% endfor %}
+<!--                    <th scope="col"> ĐTB </th>-->
+                </tr>
+                </thead>
+                <tbody>
+                {% for s in students %}
+                <tr>
+
+                    <th scope="row"> {{ s.id }}</th>
+                    <td> {{ s.fullname }}</td>
+                    {% for mk in s.marks %}
+                    <td> {{ mk.value }}</td>
+                    {% endfor %}
+
+                </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

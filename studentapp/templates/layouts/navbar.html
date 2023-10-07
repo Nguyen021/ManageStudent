@@ -1,0 +1,159 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg  color-navbar border-radius-xl mt-4">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+        <!-- Toggle button -->
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Navbar brand -->
+            <a class="navbar-brand mt-2 mt-lg-0" href="/">
+
+
+                <i class="fa-solid fa-school" style="font-size:50px;color:white"></i>
+            </a>
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">QUẢN LÝ HỌC SINH</a>
+                </li>
+
+                <li class="nav-item me-3 me-lg-0 dropdown" style="margin-left: 200px">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+
+                        <i class="fa-solid fa-bars-progress"></i>
+                        Quản Lý Học Sinh
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('tiep_nhan') }}">Tiếp nhận</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('dieu_chinh_lop') }}">Điều chỉnh lớp</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Lập danh sách lớp </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item me-3 me-lg-0 dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        <i class="fa-solid fa-bars-progress"></i>
+                        Quản Lý Điểm
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('nhap_diem') }}">Nhập điểm</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('diem_trung_binh') }}">Xuất điểm trung bình</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Xuất điểm theo môn học</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin"><i class="fa-solid fa-user-shield"></i> Trang Admin </a>
+                </li>
+
+                {% if current_user.is_authenticated %}
+                <!-- Collapsible wrapper -->
+                <!-- Right elements -->
+                <li class="nav-item">
+                    <a class="nav-link" style="padding-right:0px">
+                             <p class="d-inline text-sm text-capitalize z-index-1 font-weight-bold mt-2 me-1">
+                                {{ current_user.username }} <span style=" font-size: 10px;"
+                                    class="badge  badge-success ">{{ current_user.user_role }}</span>
+                            </p>
+                    </a>
+                </li>
+                <div class="d-flex align-items-center">
+                    <!-- Icon -->
+                    <!-- Avatar -->
+                    <div class="dropdown" style="margin-right:20px">
+
+                        <a
+                                class="dropdown-toggle d-flex align-items-center hidden-arrow"
+                                href="#"
+                                id="navbarDropdownMenuAvatar"
+                                role="button"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false"
+                        >
+
+                            <img
+                                    src="{{ current_user.avatar }}"
+                                    class="rounded-circle"
+                                    height=30"
+                                    alt="{{ current_user.username }}"
+                                    loading="lazy"
+                            />
+
+                        </a>
+                        <ul
+                                class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="navbarDropdownMenuAvatar"
+                        >
+                            <li>
+                                <a class="dropdown-item" href="#">My profile</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Change Password</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('user_signout') }}"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất </a>
+                </li>
+                <!-- Right elements -->
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href=" {{ url_for('user_signin') }}"><i class="fa-solid fa-user-shield"></i>
+                        Đăng nhập </a>
+                </li>
+
+                {% endif %}
+            </ul>
+            <!-- Left links -->
+        </div>
+
+    </div>
+    <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

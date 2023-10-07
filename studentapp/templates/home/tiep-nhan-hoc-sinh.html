@@ -1,0 +1,174 @@
+{% extends 'layouts/base.html' %}
+{% block css %}
+<style>
+  .form-outline .form-control{
+    border:1px solid #C5C5C5  !important
+}
+
+
+
+</style>
+{% endblock %}
+{% block body %}
+
+{% if message %}
+<div class="alert alert-danger mt-4">
+    {{ message }}
+</div>
+{% endif %}
+
+{% if message_success %}
+<div class="alert alert-success mt-4">
+    {{ message_success }}
+</div>
+{% endif %}
+<form method="post" action="{{ url_for('tiep_nhan') }}">
+    <h1 class="mb-5 text-center mt-3 text-uppercase">Tiếp Nhận Học Sinh</h1>
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <!--    <div class="row mb-4 mt-5">-->
+    <!--        <div class="col-3">-->
+    <!--            <div class="form-outline">-->
+    <!--                <input type="text" id="form6Example1" class="form-control"/>-->
+    <!--                <label class="form-label" for="form6Example1">First name</label>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="col-2">-->
+    <!--            <div class="form-outline">-->
+    <!--                <input type="text" id="form6Example2" class="form-control"/>-->
+    <!--                <label class="form-label" for="form6Example2">Last name</label>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <!-- Text input -->
+    <div class="form-outline mb-3">
+        <label class="form-label" for="hoten">Họ và tên</label>
+        <input type="text" id="hoten" name="fullname" value="{{ fullname if fullname }}" placeholder="VD: Nguyễn ABCD "
+               class="form-control" required/>
+
+    </div>
+
+
+    <div class="mb-3 d-flex flex-row align-items-center">
+        <label class="m-0 me-3">Giới tính:</label>
+        <!-- Default checkbox -->
+        <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="gender" value="0" id="flexCheckDefault" checked/>
+            <label class="form-check-label" for="flexCheckDefault">Nam</label>
+        </div>
+        <!-- Checked checkbox -->
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="gender" value="1" id="flexCheckChecked"/>
+            <label class="form-check-label" for="flexCheckChecked">Nữ</label>
+        </div>
+
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="form6Example5">Email</label>
+        <input type="email" id="form6Example5" name="email" value="{{ email if email }}"
+               class="form-control" required placeholder="VD: test@gmail.com"/>
+
+    </div>
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="form6Example4">Address</label>
+        <input type="text" id="form6Example4" value="{{ address if address }}" placeholder="VD: Gò Vấp "
+                name="address" class="form-control" required/>
+
+    </div>
+
+
+    <!-- Number input -->
+    <div class="form-outline mb-4">
+                <label class="form-label" for="form6Example6">Phone</label>
+
+        <input type="number" id="form6Example6" value="{{ phone if phone }}" name="phone"
+               class="form-control" required placeholder="VD: 0123456789 "/>
+    </div>
+
+    <!-- Message input -->
+    <div class="form-outline mb-4">
+        <textarea class="form-control" id="form6Example7" rows="4"></textarea>
+        <label class="form-label" for="form6Example7">Additional information</label>
+    </div>
+    <div class="mb-4">
+        <div class="input-group input-group-static d-flex flex-column">
+            <label class="mb-3">Ngày sinh (Ngày/Tháng/Năm):</label>
+            <div class="d-flex flex-row align-items-center col-4">
+                <input class="form-control me-2" min="1" max="31" value="{{ dob_day if dob_day }}" placeholder="Ngày"
+                       name="dob_day"
+                       type="number" required>
+                <span>/</span>
+                <input class="form-control mx-2" min="1" max="12" value="{{ dob_month if dob_month }}"
+                       placeholder="Tháng"
+                       name="dob_month" type="number" required>
+                <span>/</span>
+                <input class="form-control ms-2" value="{{ dob_year if dob_year }}" placeholder="Năm"
+                       name="dob_year" type="number" required>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-6">Tiếp nhận</button>
+
+
+    <div class="container mt-5" id="table_container">
+        <div class="row mx-0 my-0 w-100" style="background-color: #C5C5C5">
+            <div class="col text-center">
+                <h3 class="mb-0 d-flex justify-content-center align-items-center" style="height: 60px;">
+                    DANH SÁCH HỌC SINH TIẾP NHẬN THÀNH CÔNG
+                </h3>
+            </div>
+        </div>
+        <div class="table-responsive" style="overflow-x: hidden">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr class="table-secondary ">
+                    <th class="text-center w-3">STT</th>
+                    <th class="text-center w-20">Họ và tên</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Số điện thoại</th>
+                    <th class="text-center">Địa chỉ</th>
+                    <th class="text-center">Ngày sinh</th>
+                    <th class="text-center">Lớp</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for s in students %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="ps-5">{{ s.fullname }}</td>
+                    <td class="ps-5">{{ s.email }}</td>
+                    <td class="text-center">{{ s.phone }}</td>
+                    <td class="text-center">{{ s.address | safe }}</td>
+                    <td class="text-center">{{ s.dob.strftime('%d - %m - %Y') }}</td>
+                    <td class="text-center">{{ s.classes[0] }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <!--       pagination-->
+            <nav aria-label="...">
+                {% if page_total > 1 %}
+                <ul class="pagination pagination-circle justify-content-center">
+
+                    {% for i in range(1, page_total +1) %}
+                    <li class="page-item {% if current_page == i %} active {% endif %} " aria-current="page">
+                        <a class="page-link" href="{{ url_for('tiep_nhan' , page=i) }}">{{ i }} </a>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+                {% endif %}
+            </nav>
+            <!--        pagination-->
+        </div>
+    </div>
+    </div>
+</form>
+{% endblock %}

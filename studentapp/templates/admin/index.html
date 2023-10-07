@@ -1,0 +1,24 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+
+<h1 class="text-center text-success">TRANG CHỦ QUẢN TRỊ HỌC SINH</h1>
+{% if current_user.is_authenticated  %}
+<h4 class="text-center" style="color: black;"> Xin chào <span> {{ current_user.fullname }}</span> bạn đang truy cập với vai trò {{ current_user.user_role }} </h4>
+<h6 class="text-center text-info">Với vai trò admin bạn có thể thực quản trị hệ thống </h6>
+
+{% else %}
+<h2 class="text-center text-danger">ĐĂNG NHẬP QUẢN TRỊ</h2>
+<form method="post" action="{{ url_for('admin_login') }}">
+    <div class="mb-3 mt-3">
+        <label for="email" class="form-label">Tên đăng nhập:</label>
+        <input type="text" class="form-control" id="email" placeholder="Nhập tên đăng nhập" name="username">
+    </div>
+    <div class="mb-3">
+        <label for="pwd" class="form-label">Mật khẩu:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Nhập mật khẩu" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+</form>
+{% endif %}
+
+{% endblock %}

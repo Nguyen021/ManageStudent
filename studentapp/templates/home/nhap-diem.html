@@ -1,0 +1,116 @@
+{% extends 'layouts/base.html' %}
+{% block css %}
+<style>
+  .form-outline .form-control{
+    border:1px solid #C5C5C5  !important
+
+</style>
+{% endblock %}
+{% block body %}
+<h1 class="text-center mt-4 mb-4">Trang nhập điểm</h1>
+
+
+{% if message %}
+<div class="alert alert-danger mt-4">
+    {{ message }}
+</div>
+{% endif %}
+
+{% if message_success %}
+<div class="alert alert-success mt-4">
+    {{ message_success }}
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+        <form role="form" method="post" action="{{ url_for('nhap_diem') }}">
+            <div class="card-body pt-0">
+                <div class="row mb-4 ">
+                    <div class="col"></div>
+                    <div class="col-md-3">
+                        <div class="form-outline">
+                            <label class="form-label" for="student">Mã số học sinh</label>
+                            <input type="text" id="student" class="form-control" name="student_id" required
+                                   placeholder="VD: 123"/>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-outline">
+                            <label class="form-label" for="class">Tên học sinh</label>
+                            <input type="text" id="class" class="form-control" name="student_name" required
+                                   placeholder="VD: Nguyễn Văn A"/>
+
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row mb-4 ">
+                    <div class="col"></div>
+                    <div class="col-md-3">
+                        <div class="form-outline">
+
+                            <div class="styled-select">
+                                <label class="text-info">&#9776 Danh sách môn học</label>
+                                <select class="form-control select" name="subject_id">
+                                    {% for subject in subjects %}
+                                    <option  value="{{ subject.id }}" {% if (subject.id == subject_id) %}
+                                        selected {% endif %} style=" font-size:17px; ">{{ subject }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-outline">
+                             <label class="text-info">&#9776 Danh sách kỳ học:</label>
+                           <select class="form-control select" name="semester_id">
+                                    {% for semester in all_semester %}
+                                    <option value="{{ semester.id }}" {% if semester.id == semester_id %} selected {% endif %} style=" font-size:17px; ">{{ semester }}</option>
+                                    {% endfor %}
+                           </select>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="row mb-4 ">
+                    <div class="col"></div>
+                    <div class="col-md-3">
+                        <div class="form-outline">
+
+                           <label class="text-info">&#9776 Điểm</label>
+                           <select class="form-control select" name="mark_type">
+                                    {% for mark in type_mark %}
+                                    <option value="{{ mark }}" {% if mark == mark_type %} selected
+                                            {% endif %} style=" font-size:17px; ">{{ mark }}</option>
+                                    {% endfor %}
+                           </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-outline">
+                             <label class="">Nhập số điểm</label>
+                            <input type="number" id="value" class="form-control" name="value" min="0" max="11" required
+                                   placeholder="VD: 7.0"/>
+
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <!-- Submit button -->
+                <div class="row mb-4">
+                    <div class="col"></div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary btn-block mb-3">Cập nhập điểm</button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
